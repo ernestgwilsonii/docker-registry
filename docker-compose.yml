@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+
+  registry-srv:
+    image: ernestgwilsonii/registry-srv:latest  
+    ports:
+      - protocol: tcp
+        target: 5000
+        published: 5000
+        mode: ingress
+    deploy:
+      labels:
+        local.description: "Customized Private Docker Registry Server"
+      placement:
+        constraints:
+          - node.labels.mongo.rep == 1
+
+  registry-web:
+    image: ernestgwilsonii/registry-web:latest
+    ports:
+      - protocol: tcp
+        target: 8080
+        published: 8090
+        mode: ingress
+    deploy:
+      labels:
+        local.description: "Customized Private Docker Registry Server Web Interface"
+
